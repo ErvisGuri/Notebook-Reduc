@@ -1,0 +1,31 @@
+.note-header{
+    display: flex;
+    width: 180px;
+    height: auto;
+    font-size: 7px;
+    gap: 5px;
+    color: rgb(1 93 93);
+    margin-left: 8px;
+}
+
+.note {
+width: 560px;
+height: 250px;
+background-color: rgb(118 171 171);
+color: rgb(1 93 93);
+border: none;
+border-radius: 12px;
+margin-bottom: 20px;
+padding: 10px;
+display: flex;
+flex-direction: column;
+justify-content: space-between
+}
+
+.note-footer {
+    margin-left: 535px;
+}
+
+.deleteBtn:hover {
+    color : white
+}

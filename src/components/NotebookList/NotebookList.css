@@ -1,0 +1,30 @@
+.allNote_container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 33px;
+}
+
+.note_list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.note1{
+    border: 1px solid rgb(118 171 171) ;
+    padding: 2px;
+    background-color: rgb(118 171 171);
+    border: 1px solid;
+    border-radius: 6px;
+}
+
+.note1:hover {
+    color: white;
+    background-color: rgb(35, 88, 88);
+    width: 150px
+}
+
+.allNotes_header{
+     margin-left: 50px;
+}
+

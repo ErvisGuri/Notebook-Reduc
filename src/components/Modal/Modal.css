@@ -1,0 +1,35 @@
+.addPostModal {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+}
+
+.addBtn {
+    display: flex;
+    justify-content: flex-end;
+    background-color: transparent;
+    margin: 15px;
+    color: rgb(128, 126, 126);
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.addBtn:hover {
+    color: rgba(200,200,200)
+}
+
+.select {
+    width: 120px;
+}
+
+.modalSubmitBtn {
+    margin: 5px 20px 5px 407px;
+    color: rgb(128, 126, 126);
+}
+
+.modalSubmitBtn:hover {
+    color: rgba(200,200,200)
+}
+
