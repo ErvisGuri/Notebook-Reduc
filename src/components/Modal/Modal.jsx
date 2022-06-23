@@ -20,18 +20,11 @@ const Modal1 = () => {
   const [date, setDate] = useState("");
   const [textArea, setTextArea] = useState("");
 
-  const notes = useSelector(selectNotes);
+  const noteList = useSelector(selectNotes);
   const dispatch = useDispatch(addNote());
 
-  const onSubmitChange = (e) => {
-    setIsModalVisible(false);
-  };
   const showModal = () => {
     setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -61,16 +54,20 @@ const Modal1 = () => {
 
   function addNewPost(e) {
     e.preventDefault();
-    console.log("hey");
     dispatch(
       addNote({
-        text: name,
-        category: categorys,
+        name: name,
+        categorys: categorys,
         date: date,
         textArea: textArea,
         id: Math.random() * 1000,
       })
     );
+    setName("");
+    setCategorys("");
+    setDate("");
+    setTextArea("");
+    setIsModalVisible(false);
   }
 
   return (
@@ -116,7 +113,6 @@ const Modal1 = () => {
             <Select
               value={categorys}
               onSelect={categoryChangeHandler}
-              className="select"
               placeholder="Select a category"
               style={{ width: "200px", margin: "2px 60px 2px 63px" }}
             >
@@ -137,6 +133,7 @@ const Modal1 = () => {
           <div style={{ marginTop: "20px" }}>
             Write Your Experience:
             <TextArea
+              placeholder="Write here you note"
               value={textArea}
               onChange={textAreaChangeHandler}
               rows={8}

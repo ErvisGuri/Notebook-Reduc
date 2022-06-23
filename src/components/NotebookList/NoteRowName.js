@@ -1,13 +1,18 @@
-import React from 'react'
-import noteSlice from '../../features/noteSlice'
+import React, { useState } from 'react'
 import './NotebookList.css'
 
-const NoteRowName = ({ note }) => {
+const NoteRowName = ({ note, handleVisible, filterNotes }) => {
+
+    console.log(note.name)
+    console.log(filterNotes)
 
     return (
         <>
             <ul className="note_list">
-                <li className='note1'>
+                <li
+                    onChange={() => filterNotes}
+                    onClick={() => handleVisible}
+                    className='note1'>
                     {note.name}
                 </li>
             </ul>
@@ -15,4 +20,4 @@ const NoteRowName = ({ note }) => {
     )
 }
 
-export default NoteRowName
+export default NoteRowName 
