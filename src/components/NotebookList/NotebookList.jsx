@@ -10,9 +10,7 @@ import { selectNotes } from "../../features/noteSlice";
 
 const { Search } = Input;
 
-const NotebookList = ({ handleVisible }) => {
-  const [selectedNote, setSelectNote] = useState(0);
-  const [showContent, setShowContent] = useState(false);
+const NotebookList = ({ handleVisible, ChangeContent, foundNotes }) => {
   const [searchField, setSearchField] = useState("");
   const noteList = useSelector(selectNotes);
 
@@ -24,26 +22,12 @@ const NotebookList = ({ handleVisible }) => {
     notes.name.toLowerCase().includes(searchField.toLocaleLowerCase())
   );
 
-  const onChangeContent = (e) => {
-    setSelectNote(e.target.value);
-  };
-
-  useEffect(() => {
-    let foundNote = noteList.filter((not) => not.id === selectedNote);
-
-    if (foundNote) {
-      setShowContent(false);
-    } else {
-      setShowContent(true);
-    }
-  });
-
   return (
     <div className="allNote_container">
       <Search
         onChange={handleChange}
         placeholder="Search Note ..."
-        style={{ marginLeft: "10px", borderRadius: "6px", color: "1 93 93" }}
+        style={{ marginLeft: "10px" }}
       />
       <div className="addNotesBtn">
         <h1 className="allNotes_header">All Notes</h1>
@@ -51,7 +35,8 @@ const NotebookList = ({ handleVisible }) => {
       </div>
       {noteList.map((note, i) => (
         <NoteRowNames
-          onChangeContent={onChangeContent}
+          foundNotes={foundNotes}
+          onChangeContent={ChangeContent}
           note={note}
           handleVisible={handleVisible}
           key={i}

@@ -5,21 +5,14 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { remove } from "../../features/noteSlice";
 import { useDispatch } from "react-redux";
 
-const Notebook = ({ notes }) => {
-  const [hidden, setHidden] = useState(true);
+const Notebook = ({ notes, handleNotVisible }) => {
+  const [visible, setVisible] = useState(false);
+
   const dispatch = useDispatch();
-
-  const handleNotVisible = () => {
-    setHidden(false);
-  };
-
-  const handleVisible = () => {
-    setHidden(true);
-  };
 
   return (
     <>
-      <div>
+      <div onChange={handleNotVisible}>
         <div className="note-header">
           <h3 className="postCategory">{notes.category}</h3>
           <h3 className="postDate">{notes.date}</h3>

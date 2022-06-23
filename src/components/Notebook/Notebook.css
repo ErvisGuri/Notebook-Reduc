@@ -10,7 +10,7 @@
 
 .note {
 width: 560px;
-height: 250px;
+height: auto;
 background-color: rgb(118 171 171);
 color: rgb(1 93 93);
 border: none;

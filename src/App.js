@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 //Importing Components
@@ -10,8 +10,14 @@ import { selectNotes } from "./features/noteSlice";
 
 function App() {
   const [contentVisible, setContentVisible] = useState(false);
+  const [selectedNote, setSelectNote] = useState(0);
+
 
   const noteList = useSelector(selectNotes)
+
+  console.log(noteList)
+
+  const foundNotes = noteList.filter((not) => not.id === selectedNote);
 
   const handleNotVisible = () => {
     setContentVisible(false);
@@ -21,17 +27,20 @@ function App() {
     setContentVisible(true);
   };
 
+  const onChangeContent = (e) => {
+    setSelectNote(e.target.value);
+  };
+
   return (
     <div className="App">
       <div className='noteList_container'>
-        <NotebookList handleVisible={handleVisible} />
+        <NotebookList foundNotes={foundNotes} onChangeContent={onChangeContent} handleVisible={handleVisible} />
       </div>
       <div className='note_container'>
         <h1 className='noteHeader_container'>My Note</h1>
         {noteList.map((notes, i) =>
-          <Notebook onClick={handleNotVisible} notes={notes} key={i} />)}
+          <Notebook handleNotVisible={handleNotVisible} notes={notes} key={i} />)}
       </div>
-
     </div>
   );
 }

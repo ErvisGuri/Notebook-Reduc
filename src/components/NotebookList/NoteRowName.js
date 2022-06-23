@@ -1,17 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './NotebookList.css'
 
-const NoteRowName = ({ note, handleVisible, filterNotes }) => {
+const NoteRowName = ({ note, filterNotes, foundNotes }) => {
 
-    console.log(note.name)
-    console.log(filterNotes)
-
+    console.log(foundNotes)
     return (
         <>
             <ul className="note_list">
                 <li
                     onChange={() => filterNotes}
-                    onClick={() => handleVisible}
+                    onClick={() => foundNotes}
                     className='note1'>
                     {note.name}
                 </li>
