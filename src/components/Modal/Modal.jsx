@@ -4,31 +4,28 @@ import { PlusOutlined } from "@ant-design/icons";
 import { DatePicker } from "antd";
 import "antd/dist/antd.css";
 
-import { useDispatch, useSelector } from "react-redux";
-import { addNote, selectNotes } from "../../features/noteSlice";
-
+import { useDispatch } from "react-redux";
+import { addNote, updateNote } from "../../features/noteSlice";
 import "./Modal.css";
 
 const { Option } = Select;
 const { TextArea } = Input;
 
-const Modal1 = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
+const Modal1 = ({
+  showModal,
+  handleCancel,
+  isModalVisible,
+  note,
+  updatePost,
+}) => {
   const [name, setName] = useState("");
   const [categorys, setCategorys] = useState("");
   const [date, setDate] = useState("");
   const [textArea, setTextArea] = useState("");
 
-  const noteList = useSelector(selectNotes);
   const dispatch = useDispatch(addNote());
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const clearInput = () => {
     setName("");
     setCategorys("");
     setDate("");
@@ -41,7 +38,7 @@ const Modal1 = () => {
 
   const dateChangeHandler = (e) => {
     const dateFormat = "MM/DD/YYYY";
-    setDate(e.format(dateFormat));
+    setDate(e?.format(dateFormat));
   };
 
   const categoryChangeHandler = (event) => {
@@ -63,12 +60,13 @@ const Modal1 = () => {
         id: Math.random() * 1000,
       })
     );
-    setName("");
-    setCategorys("");
-    setDate("");
-    setTextArea("");
-    setIsModalVisible(false);
+    clearInput();
+    handleCancel();
   }
+
+  const ugeg = () => {
+    updatePost(note.id);
+  };
 
   return (
     <>
@@ -89,10 +87,8 @@ const Modal1 = () => {
       <Modal
         mask={true}
         maskStyle={{ backgroundColor: "rgb(35, 88, 88)" }}
-        wrapclassName="addPostModal"
         onChange={nameChangeHandler}
         title="Add a Note"
-        onOk={addNewPost}
         visible={isModalVisible}
         onCancel={handleCancel}
         bodyStyle={{ height: "400px" }}
@@ -102,7 +98,7 @@ const Modal1 = () => {
           <div className="modalName">
             Name Surname:
             <Input
-              value={name}
+              defaultValue={note.name}
               onChange={nameChangeHandler}
               style={{ width: "200px", marginLeft: "23px" }}
               placeholder="name"
@@ -111,10 +107,12 @@ const Modal1 = () => {
           <div className="modalCategory">
             Category:
             <Select
-              value={categorys}
+              defaultValue={note.categorys}
               onSelect={categoryChangeHandler}
-              placeholder="Select a category"
-              style={{ width: "200px", margin: "2px 60px 2px 63px" }}
+              style={{
+                width: "200px",
+                margin: "3px 60px 2px 62.5px",
+              }}
             >
               <Option value="Financial Notes">Financial Notes</Option>
               <Option value="Journal">Journal</Option>
@@ -125,23 +123,28 @@ const Modal1 = () => {
           <div className="date">
             Date:
             <DatePicker
-              defaultValue={date}
+              defaultValue={note.date}
+              placeholder="Choose Date"
               onChange={dateChangeHandler}
-              style={{ width: "200px", marginLeft: "89.5px" }}
+              style={{ width: "200px", marginLeft: "89px" }}
             />
           </div>
           <div style={{ marginTop: "20px" }}>
-            Write Your Experience:
+            Write Your Note:
             <TextArea
-              placeholder="Write here you note"
-              value={textArea}
+              defaultValue={note.textArea}
               onChange={textAreaChangeHandler}
               rows={8}
             />
           </div>
         </div>
-        <Button onClick={addNewPost} type="Submit" className="modalSubmitBtn">
-          POST
+        <Button
+          // onChange={addNewPost}
+          onClick={addNewPost}
+          type="Submit"
+          className="modalSubmitBtn"
+        >
+          Post
         </Button>
       </Modal>
     </>

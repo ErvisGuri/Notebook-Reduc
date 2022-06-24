@@ -1,15 +1,18 @@
 import React from 'react'
 import './NotebookList.css'
 
-const NoteRowName = ({ note, filterNotes, foundNotes }) => {
+const NoteRowName = ({ note, onChangeContent }) => {
 
-    console.log(foundNotes)
+    const handleNoteRowNameClick = () => {
+        onChangeContent(note.id);
+    }
+
     return (
         <>
             <ul className="note_list">
                 <li
-                    onChange={() => filterNotes}
-                    onClick={() => foundNotes}
+
+                    onClick={handleNoteRowNameClick}
                     className='note1'>
                     {note.name}
                 </li>
@@ -18,4 +21,4 @@ const NoteRowName = ({ note, filterNotes, foundNotes }) => {
     )
 }
 
-export default NoteRowName 
+export default NoteRowName

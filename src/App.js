@@ -1,45 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import { useDispatch } from "react-redux";
+
 
 //Importing Components
 import Notebook from './components/Notebook/Notebook';
 import NotebookList from './components/NotebookList/NotebookList';
 import { useSelector } from "react-redux";
 import { selectNotes } from "./features/noteSlice";
+import { updateNote } from "./features/noteSlice";
+
 
 
 function App() {
-  const [contentVisible, setContentVisible] = useState(false);
-  const [selectedNote, setSelectNote] = useState(0);
-
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedNote, setSelectedNote] = useState(0);
+  const dispatch = useDispatch();
   const noteList = useSelector(selectNotes)
 
-  console.log(noteList)
-
-  const foundNotes = noteList.filter((not) => not.id === selectedNote);
-
-  const handleNotVisible = () => {
-    setContentVisible(false);
+  const onChangeContent = (id) => {
+    setSelectedNote(id);
   };
 
-  const handleVisible = () => {
-    setContentVisible(true);
+  const showModal = () => {
+    setIsModalVisible(true);
   };
 
-  const onChangeContent = (e) => {
-    setSelectNote(e.target.value);
+  const updatePost = (e) => {
+    dispatch(
+      updateNote({
+        name: e.target.value,
+        category: e.target.value,
+        date: e.target.value,
+        textArea: e.target.value,
+      })
+    );
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   return (
     <div className="App">
       <div className='noteList_container'>
-        <NotebookList foundNotes={foundNotes} onChangeContent={onChangeContent} handleVisible={handleVisible} />
+        <NotebookList updatePost={updatePost} note={selectedNote} isModalVisible={isModalVisible} showModal={showModal} handleCancel={handleCancel} onChangeContent={onChangeContent} />
       </div>
       <div className='note_container'>
         <h1 className='noteHeader_container'>My Note</h1>
-        {noteList.map((notes, i) =>
-          <Notebook handleNotVisible={handleNotVisible} notes={notes} key={i} />)}
+        {noteList.filter((not) => not.id === selectedNote)
+          .map((note, i) =>
+            <Notebook updatePost={updatePost} showModal={showModal} handleCancel={handleCancel} value={note.id} checked={selectNotes === note.id} note={note} key={i} />)}
       </div>
     </div>
   );

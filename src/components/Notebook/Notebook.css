@@ -23,9 +23,16 @@ justify-content: space-between
 }
 
 .note-footer {
-    margin-left: 535px;
+    margin-left: 5px;
+    display: flex;
+    justify-content: space-around;
+    gap: 510px;
 }
 
 .deleteBtn:hover {
+    color :white;
+}
+
+.editBtn:hover {
     color :white;
 }

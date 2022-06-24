@@ -1,28 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./Notebook.css";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { remove } from "../../features/noteSlice";
 import { useDispatch } from "react-redux";
 
-const Notebook = ({ notes, handleNotVisible }) => {
-  const [visible, setVisible] = useState(false);
-
+const Notebook = ({ note, showModal, updatePost }) => {
   const dispatch = useDispatch();
 
   return (
     <>
-      <div onChange={handleNotVisible}>
+      <div>
         <div className="note-header">
-          <h3 className="postCategory">{notes.category}</h3>
-          <h3 className="postDate">{notes.date}</h3>
+          <h3 className="postCategory">{note.category}</h3>
+          <h3 className="postDate">{note.date}</h3>
         </div>
         <div className="note">
-          <span>{notes.textArea}</span>
+          <span>{note.textArea}</span>
           <div className="note-footer">
+            <EditOutlined
+              className="editBtn"
+              onChange={updatePost}
+              onClick={showModal}
+            />
+
             <DeleteOutlined
               className="deleteBtn"
-              onClick={() => dispatch(remove(notes.id))}
+              onClick={() => dispatch(remove(note.id))}
             />
           </div>
         </div>

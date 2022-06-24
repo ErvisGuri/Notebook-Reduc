@@ -25,11 +25,15 @@ const noteSlice = createSlice({
                 return el.id !== action.payload;
             });
         },
+        updateNote: (state, action) => {
+            const index = state.noteLists.findIndex((nt) => nt.id === action.payload.id)
+            state.noteLists[index].notelist = action.payload.notelist
+        }
     }
 })
 
 // Action creators are generated for each case reducer function
-export const { addNote, remove } = noteSlice.actions
+export const { addNote, remove, updateNote } = noteSlice.actions
 
 export default noteSlice.reducer
 
