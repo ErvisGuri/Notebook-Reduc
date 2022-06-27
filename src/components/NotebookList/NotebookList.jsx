@@ -11,12 +11,13 @@ import { selectNotes } from "../../features/noteSlice";
 const { Search } = Input;
 
 const NotebookList = ({
-  updatePost,
   onChangeContent,
   showModal,
   handleCancel,
   isModalVisible,
   note,
+  isEdit,
+  setIsEdit,
 }) => {
   const [searchField, setSearchField] = useState("");
   const noteList = useSelector(selectNotes);
@@ -35,11 +36,13 @@ const NotebookList = ({
       <div className="addNotesBtn">
         <h1 className="allNotes_header">All Notes</h1>
         <Modal1
-          updatePost={updatePost}
           isModalVisible={isModalVisible}
           handleCancel={handleCancel}
           showModal={showModal}
           note={note}
+          onChangeContent={onChangeContent}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
         />
       </div>
       {noteList

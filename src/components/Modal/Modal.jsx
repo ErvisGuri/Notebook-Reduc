@@ -5,7 +5,8 @@ import { DatePicker } from "antd";
 import "antd/dist/antd.css";
 
 import { useDispatch } from "react-redux";
-import { addNote, updateNote } from "../../features/noteSlice";
+import { addNote, updateNote, selectNotes } from "../../features/noteSlice";
+import { useSelector } from "react-redux";
 import "./Modal.css";
 
 const { Option } = Select;
@@ -16,15 +17,22 @@ const Modal1 = ({
   handleCancel,
   isModalVisible,
   note,
-  updatePost,
+  onChangeContent,
+  isEdit,
+  setIsEdit,
 }) => {
-  const [name, setName] = useState("");
-  const [categorys, setCategorys] = useState("");
-  const [date, setDate] = useState("");
-  const [textArea, setTextArea] = useState("");
+  // const noteList = useSelector(selectNotes);
+  // const note = noteList.find((item) => item.id === selectedNote);
+  console.log(note);
+  console.log(isEdit ? note.name : "s");
+  const [name, setName] = useState(isEdit ? note.name : "");
+  const [categorys, setCategorys] = useState(isEdit ? note.categorys : "");
+  const [date, setDate] = useState(isEdit ? note.date : "");
+  const [textArea, setTextArea] = useState(isEdit ? note.textArea : "");
 
-  const dispatch = useDispatch(addNote());
+  const dispatch = useDispatch();
 
+  console.log(date, name, categorys, textArea);
   const clearInput = () => {
     setName("");
     setCategorys("");
@@ -51,21 +59,37 @@ const Modal1 = ({
 
   function addNewPost(e) {
     e.preventDefault();
+    const id = Math.random() * 1000;
     dispatch(
       addNote({
         name: name,
         categorys: categorys,
         date: date,
         textArea: textArea,
-        id: Math.random() * 1000,
+        id: id,
       })
     );
     clearInput();
     handleCancel();
+    onChangeContent(id);
   }
 
-  const ugeg = () => {
-    updatePost(note.id);
+  const updatePost = () => {
+    console.log("at update");
+    console.log(name, categorys, date, textArea);
+    dispatch(
+      updateNote({
+        id: note.id,
+        name: name,
+        categorys: categorys,
+        date: date,
+        textArea: textArea,
+      })
+    );
+    handleCancel();
+    onChangeContent(note.id);
+    setIsEdit(false);
+    clearInput();
   };
 
   return (
@@ -87,8 +111,7 @@ const Modal1 = ({
       <Modal
         mask={true}
         maskStyle={{ backgroundColor: "rgb(35, 88, 88)" }}
-        onChange={nameChangeHandler}
-        title="Add a Note"
+        title={isEdit ? "Update a Note" : "Add a Note"}
         visible={isModalVisible}
         onCancel={handleCancel}
         bodyStyle={{ height: "400px" }}
@@ -98,7 +121,7 @@ const Modal1 = ({
           <div className="modalName">
             Name Surname:
             <Input
-              defaultValue={note.name}
+              value={name}
               onChange={nameChangeHandler}
               style={{ width: "200px", marginLeft: "23px" }}
               placeholder="name"
@@ -107,7 +130,7 @@ const Modal1 = ({
           <div className="modalCategory">
             Category:
             <Select
-              defaultValue={note.categorys}
+              value={categorys}
               onSelect={categoryChangeHandler}
               style={{
                 width: "200px",
@@ -123,7 +146,7 @@ const Modal1 = ({
           <div className="date">
             Date:
             <DatePicker
-              defaultValue={note.date}
+              defaultValue={date}
               placeholder="Choose Date"
               onChange={dateChangeHandler}
               style={{ width: "200px", marginLeft: "89px" }}
@@ -132,20 +155,21 @@ const Modal1 = ({
           <div style={{ marginTop: "20px" }}>
             Write Your Note:
             <TextArea
-              defaultValue={note.textArea}
+              value={textArea}
               onChange={textAreaChangeHandler}
               rows={8}
             />
           </div>
         </div>
-        <Button
-          // onChange={addNewPost}
-          onClick={addNewPost}
-          type="Submit"
-          className="modalSubmitBtn"
-        >
-          Post
-        </Button>
+        {isEdit ? (
+          <Button onClick={updatePost} type="Submit" className="modalSubmitBtn">
+            Save
+          </Button>
+        ) : (
+          <Button onClick={addNewPost} type="Submit" className="modalSubmitBtn">
+            Post
+          </Button>
+        )}
       </Modal>
     </>
   );

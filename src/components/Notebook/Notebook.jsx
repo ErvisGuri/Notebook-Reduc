@@ -5,8 +5,13 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { remove } from "../../features/noteSlice";
 import { useDispatch } from "react-redux";
 
-const Notebook = ({ note, showModal, updatePost }) => {
+const Notebook = ({ note, showModal, setIsEdit }) => {
   const dispatch = useDispatch();
+
+  const update = () => {
+    setIsEdit(true);
+    showModal();
+  };
 
   return (
     <>
@@ -18,11 +23,7 @@ const Notebook = ({ note, showModal, updatePost }) => {
         <div className="note">
           <span>{note.textArea}</span>
           <div className="note-footer">
-            <EditOutlined
-              className="editBtn"
-              onChange={updatePost}
-              onClick={showModal}
-            />
+            <EditOutlined className="editBtn" onClick={update} />
 
             <DeleteOutlined
               className="deleteBtn"
